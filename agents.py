@@ -89,5 +89,12 @@ One line verdict:
 
 critic_chain = critic_prompt | llm | StrOutputParser()
 
+import re
+
+def extract_score(feedback: str) -> int:
+    """Pulls the numeric score out of the critic's 'Score: X/10' line."""
+    match = re.search(r"Score:\s*(\d+)", feedback)
+    return int(match.group(1)) if match else 10  # default high so it doesn't loop forever if parsing fails
+
 
 
